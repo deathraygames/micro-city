@@ -29,12 +29,23 @@
 	<meta name="msapplication-TileColor" content="#2b5797">
 	<meta name="theme-color" content="#333333">	
 </head>
-<body>
+<body class="sesame">
 
 <div id="skyline">
 	<header>
-		<h1><span class="micro-title">Micro</span> City <span class="version">v0.1.0</span></h1>
+		<h1><span class="micro-title">Micro</span> City <span class="version">v0.1.3</span></h1>
 		<div class="side-controls">
+			<!-- <a href="#!/save" class="save">Save</a> 
+				<a href="#!/prestige" class="save">Prestige</a>
+				<a href="#!/wipe" class="save">Wipe</a>
+			-->
+			<select class="themes">
+				<option value="sesame">Themes:</option>
+				<option value="vanilla">Vanilla TNR</option>
+				<option value="sesame">Sesame</option>
+				<option value="coffee">Coffee</option>
+				<option value="oreo">Oreo</option>
+			</select>
 			<a href="#!" class="cityDrawToggle">City</a>
 			<a href="#!/pause" class="pause">Pause</a>
 		</div>
@@ -65,24 +76,27 @@
 			<div>Floors: <span id="floorsR">_</span>, Buildings: <span id="buildingsR">_</span></div>
 			<div>Demand: <span id="demandR">_</span></div>
 			<!-- <div>Profits: <span id="profitsR">_</span></div> -->
+			<button type="button" class="permit" title="When demand is high enough you can issue a construction permit">+ Building Permit</button>
+			<!-- <button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button> -->
 			<div>Tax: <span id="taxIncomeR">_</span></div>
-			<button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button>
 		</li>
 		<li class="building-type building-type-C" data-building="C">
 			<div><strong>C</strong>ommercial</div>
 			<div>Floors: <span id="floorsC">_</span>, Buildings: <span id="buildingsC">_</span></div>
 			<div>Demand: <span id="demandC">_</span></div>
 			<!-- <div>Profits: <span id="profitsC">_</span></div> -->
+			<button type="button" class="permit" title="When demand is high enough you can issue a construction permit">+ Building Permit</button>
+			<!-- <button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button> -->
 			<div>Tax: <span id="taxIncomeC">_</span></div>
-			<button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button>
 		</li>
 		<li class="building-type building-type-I" data-building="I">
 			<div><strong>I</strong>ndustrial</div>
 			<div>Floors: <span id="floorsI">_</span>, Buildings: <span id="buildingsI">_</span></div>
 			<div>Demand: <span id="demandI">_</span></div>
 			<!-- <div>Profits: <span id="profitsI">_</span></div> -->
+			<button type="button" class="permit" title="When demand is high enough you can issue a construction permit">+ Building Permit</button>
+			<!-- <button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button> -->
 			<div>Tax: <span id="taxIncomeI">_</span></div>
-			<button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button>
 		</li>
 		<li class="building-type building-type-P" data-building="P">
 			<div><strong>P</strong>ublic</div>
@@ -121,34 +135,31 @@
 				<li class="coal" data-templatekey="coal">
 					Coal Power Plant
 					<button type="button">+1 for <span class="currency-symbol"></span><span class="cost">100</span></button>
-				</li>				
+				</li>
 			</ol>
 		</div>
 		<div class="policies">
 			<h2>Policies</h2>
-			<p>
-				Doesn't work yet
-			</p>
 			<ol class="list">
 				<li>
 					Population Tax Rate
-					<input id="taxRatePop" type="range" min="0" max="50" step="0.5" />
-					<span></span>
+					<input class="tax-slider-pop" type="range" min="0" max="10" step="0.5" />
+					<span class="taxRate-pop">__</span>
 				</li>
 				<li>
 					Residential Tax Rate
-					<input id="taxRateR" type="range" min="0" max="50" step="0.5" />
-					<span></span>
+					<input class="tax-slider-R" type="range" min="0" max="10" step="0.5" />
+					<span class="taxRate-R">__</span>
 				</li>
 				<li>
 					Commercial Tax Rate
-					<input id="taxRateR" type="range" min="0" max="50" step="0.5" />
-					<span></span>
+					<input class="tax-slider-C" type="range" min="0" max="10" step="0.5" />
+					<span class="taxRate-C">__</span>
 				</li>
 				<li>
-					Residential Tax Rate
-					<input id="taxRateR" type="range" min="0" max="50" step="0.5" />
-					<span></span>
+					Industrial Tax Rate
+					<input class="tax-slider-I" type="range" min="0" max="10" step="0.5" />
+					<span class="taxRate-I">__</span>
 				</li>
 			</ol>			
 		</div>
@@ -166,12 +177,15 @@
 	<p>
 		Crafted by @deathraygames. 
 		Inspired by 
-		<a href="https://itch.io/jam/citysimjam2016" target="_blank">City Sim Jam 2016</a>, Sim City, Kittens, and Keep Craft.
+		<a href="https://itch.io/jam/citysimjam2016" target="_blank">City Sim Jam 2016</a>, Sim City, Kittens, Keep Craft, and the community of the <a href="https://www.reddit.com/r/incremental_games" target="_blank">incremental_games subreddit</a>.
 	</p>
-	<p> 
-		<a href="https://twitter.com/deathraygames" target="_blank">Twitter</a> 
-		| <a href="http://deathraygames.tumblr.com/" target="_blank">Tumblr</a> 
-		| <a href="http://deathraygames.com/" target="_blank">DeathrayGames.com</a>
+	<p class="links">
+		<a href="http://deathraygames.tumblr.com/" target="_blank">Tumblr</a> 
+		<a href="https://twitter.com/deathraygames" target="_blank">Twitter</a>
+		<a href="https://www.facebook.com/deathraygames/" target="_blank">Facebook</a>
+		<a href="https://www.reddit.com/r/deathraygames" target="_blank">Reddit</a>
+		<a href="https://github.com/deathraygames/" target="_blank">GitHub</a>
+		<a href="http://deathraygames.com/" target="_blank">DeathrayGames.com</a>
 	</p>
 	<p>
 		Copyright &copy; 2016 | 

@@ -30,7 +30,9 @@ RocketBoots.loadComponents([
 
 //===== Constants
 
-	var MIN_DEMAND = -100,
+	var RCI = ["R","C","I"],
+		RCIP = ["R","C","I","P"],
+		MIN_DEMAND = -100,
 		MAX_DEMAND = 100,
 		BASE_THRESHOLD = 50,
 		COLORS = [
@@ -50,6 +52,8 @@ RocketBoots.loadComponents([
 
 	var $skyline = $('#skyline');
 	var $buildingsList = $skyline.find('.buildings');
+	var $rcip = $('.rcip');
+	var $tabs = $('.tabs');
 	var residentsPerBuilding = 10;
 	var jobsPerCommercialBuilding = 5;
 	var jobsPerIndustrialBuilding = 10;
@@ -75,8 +79,9 @@ RocketBoots.loadComponents([
 		}
 		
 		// Build?
-		buildRandomType();
+		g.updateButtons();
 		g.draw();
+		checkCheckpoint();
 	});
 
 	g.state.addStates({
@@ -119,9 +124,23 @@ RocketBoots.loadComponents([
 			var $li = $(elt);
 			var tk = $li.data("templatekey");
 			var building = getNewBuilding(tk);
-			$li.find('.cost').html(getNewPublicBuildingCost(building));
+			$li.find('.cost').html(currencySymbol + getNewPublicBuildingCost(building));
 		});
-	}
+	};
+
+	g.updateButtons = function () {
+		rb._.each(RCI, function(type){
+			var $permit = $rcip.find('.building-type-' + type + ' .permit');
+			$permit.prop("disabled", !isReadyToBuild(type));
+		});
+	};
+
+	g.updatePolicies = function () {
+		rb._.each(g.taxRates, function(rate, type){
+			$('.taxRate-' + type).html(rate + "%");
+			$('.tax-slider-' + type).val(rate);
+		});
+	};
 
 	function getSkyColor (hour) {
 		//var percent = hour / 24;
@@ -130,6 +149,11 @@ RocketBoots.loadComponents([
 	}
 
 //=====
+
+	g.setTaxRate = function (type, rate) {
+		g.taxRates[type] = rate;
+		g.updatePolicies();
+	}
 
 	function calcBuildingFloorCounts () {
 		var currencyKey;
@@ -166,15 +190,18 @@ RocketBoots.loadComponents([
 	}
 
 	function buildRandomType () {
-		var randomType = g.dice.selectRandom(["R","C","I"]);
+		var randomType = g.dice.selectRandom(RCI);
 		return buildBuildingIfDemanded(randomType);
 	}
 
+	function isReadyToBuild (type) {
+		return (g.currencies["demand" + type].val > g.thresholds[type]) ? true : false;
+	}
+
 	function buildBuildingIfDemanded (type) {
-		var c = g.inc.currencies;
 		if (g.buildings.length >= MAX_BUILDINGS) {
 			return false;
-		} else if (c["demand" + type].val > g.thresholds[type]) {
+		} else if (isReadyToBuild(type)) {
 			buildBuildingByType(type);
 			return true;
 		}
@@ -182,7 +209,7 @@ RocketBoots.loadComponents([
 	}
 
 	function fixDemand (type) {
-		g.currencies["demand" + type].subtract(g.thresholds[type]);
+		g.currencies["demand" + type].zero(); //.subtract(g.thresholds[type]);
 		g.thresholds[type] = getNewThreshold();		
 	}
 
@@ -261,6 +288,17 @@ RocketBoots.loadComponents([
 		}
 	}
 
+	function checkCheckpoint () {
+		switch (g.checkpoint) {
+			case 0:
+				if (g.currencies.funds.val > 0 && g.buildingCounts.total > 0) {
+					$tabs.fadeIn(500);
+					g.checkpoint++;
+				}
+			break;
+		}
+	}
+
 //===== Game Methods
 
 	g.buildNewBuilding = buildNewBuilding;
@@ -268,6 +306,7 @@ RocketBoots.loadComponents([
 //===== Game Data
 
 	g.drawCityOn = true;
+	g.checkpoint = 0;
 
 	g.buildings = [];
 	g.buildingModifiers = {};
@@ -279,9 +318,7 @@ RocketBoots.loadComponents([
 		R: BASE_THRESHOLD, C: BASE_THRESHOLD, I: BASE_THRESHOLD, P: BASE_THRESHOLD
 	};
 
-	g.taxes = {
-		pop: 0.5, R: 0, C: 1, I: 1, P: -0.5
-	};
+	g.taxRates = { pop: 0.5, R: 0, C: 1, I: 1 };
 
 	g.currencies = g.inc.currencies;
 
@@ -318,7 +355,7 @@ RocketBoots.loadComponents([
 		},{
 			name: "funds",
 			displayName: "City Funds",
-			val: 200,
+			val: 0,
 			rate: 0,
 			min: -9999,
 			symbol: currencySymbol,
@@ -327,7 +364,7 @@ RocketBoots.loadComponents([
 				return (c.taxIncomeR.val + c.taxIncomeC.val + c.taxIncomeI.val - c.publicBudget.val);
 			},
 			calcMax: function(c){
-				return 500;
+				return 300 + (200 * g.buildingCounts.total);
 			}
 		},{
 			name: "happiness",
@@ -335,7 +372,7 @@ RocketBoots.loadComponents([
 				var popDesiringCommercialJob = c.pop.val/3;
 				var popDesiringIndustryJob = c.pop.val - popDesiringCommercialJob;
 				var popDesiringServices = c.pop.val/2;
-				if (c.buildingsR.val == 0) { return 50; } // Base immigration
+				if (c.buildingsR.val == 0) { return 10; } // Base immigration
 				// Residential demand is based on jobs available 
 				// and there needs to be plenty of public buildings per residential
 				return (
@@ -355,7 +392,9 @@ RocketBoots.loadComponents([
 				return 0;
 			},
 			calcMax: function (c) {
-				return ((Math.floor(c.pop.val) * 10) + (g.buildingCounts.total * 10));
+				var pop = Math.max(0, Math.floor(c.pop.val) - 10);
+				var bc = Math.max(0, g.buildingCounts.total - 3);
+				return (pop * 5) + (bc * 5);
 			}
 		},{
 			name: "corruption",
@@ -446,21 +485,21 @@ RocketBoots.loadComponents([
 			val: 0, min: -999, max: 999,
 			symbol: currencySymbol,
 			calcValue: function (c) {
-				return (c.pop.val * g.taxes.pop) + (c.buildingsR.val * g.taxes.R);
+				return (c.pop.val * g.taxRates.pop) + (c.buildingsR.val * g.taxRates.R);
 			}
 		},{
 			name: "taxIncomeC",
 			val: 0, min: -999, max: 999,
 			symbol: currencySymbol,
 			calcValue: function (c) {
-				return (c.buildingsC.val * g.taxes.C);
+				return (c.buildingsC.val * g.taxRates.C);
 			}
 		},{
 			name: "taxIncomeI",
 			val: 0, min: -999, max: 999,
 			symbol: currencySymbol,
 			calcValue: function (c) {
-				return (c.buildingsI.val * g.taxes.I);
+				return (c.buildingsI.val * g.taxRates.I);
 			}
 		},{
 			name: "publicBudget",
@@ -478,6 +517,12 @@ RocketBoots.loadComponents([
 		g.currencies["demand" + buildingTypeKey].add(10);
 		g.currencies.funds.subtract(100);
 	});
+	$('.permit').click(function(e){
+		var $button = $(e.target);
+		var buildingTypeKey = $button.closest('.building-type').data("building");
+		buildBuildingIfDemanded(buildingTypeKey);
+	});
+
 	$('.tabs nav').on("click", "a", function(e){
 		var $link = $(e.target);
 		var tabClass = $link.data("tab");
@@ -500,12 +545,28 @@ RocketBoots.loadComponents([
 		console.log("drawCityOn", g.drawCityOn);
 		g.draw();
 	});
+	$('select.themes').on("change", function(e){
+		var $select = $(e.target);
+		var selectedClass = $select.val();
+		var $body = $('body').attr("class", "");
+		console.log(selectedClass)
+		$body.addClass( selectedClass );
+	});
 	$('.upgrades').on("click", "button", function(e){
 		var $button = $(e.target);
 		var $what = $button.closest('li');
 		var templateKey = $what.data("templatekey");
 		buyBuilding(templateKey);
 	});
+	rb._.each(g.taxRates, function(rate, type){
+		$('.tax-slider-' + type).on("change", function(e){
+			g.setTaxRate(type, $(e.target).val());
+		});
+	});
+
+	// Do once at start
+	$tabs.hide();
+	g.updatePolicies();
 
 
 	console.log(g);

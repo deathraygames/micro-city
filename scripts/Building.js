@@ -19,7 +19,7 @@
 			costMultiplier: 1,
 			currencyModifiers: {
 				electricity: {rate: -0.1},
-				crime: {rate: 0.5}
+				crime: {rate: 0.1}
 			}
 		},
 		"shop": {
@@ -28,7 +28,7 @@
 			costMultiplier: 1,
 			currencyModifiers: {
 				electricity: {rate: -0.1},
-				crime: {rate: 0.5}
+				crime: {rate: 0.1}
 			}
 		},
 		"factory": {
@@ -38,7 +38,7 @@
 			costMultiplier: 1,
 			currencyModifiers: {
 				electricity: {rate: -0.1},
-				crime: {rate: 1}
+				crime: {rate: 0.2}
 			}
 		},
 		"park": {
@@ -47,14 +47,13 @@
 			costMultiplier: 1,
 			currencyModifiers: {
 				electricity: {rate: -0.1},
-				pop: {rate: -1},
 				pollution: {rate: -1},
-				crime: {rate: 0.5},
+				crime: {rate: 0.1},
 				publicBudget: {val: 1, max: 1}
 			}
 		},
 		"admin": {
-			name: "Bureaucracy Administration",
+			name: "Bureaucracy Office",
 			type: "P",
 			costMultiplier: 1,
 			currencyModifiers: {
@@ -69,7 +68,7 @@
 			costMultiplier: 2,
 			currencyModifiers: {
 				electricity: {rate: -0.1},
-				crime: {rate: -10},
+				crime: {rate: -2},
 				publicBudget: {val: 10, max: 10}
 			}
 		},
