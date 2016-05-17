@@ -1,0 +1,89 @@
+/*
+	Incrementer
+	Incrementer class, useful for incremental games
+	By Luke Nickerson, 2015-2016
+*/
+(function(){
+
+	var Incrementer = function(){
+		this.currencies = {};
+		this.currencyArray = [];
+		this.currencyNum = 0;
+	}
+	Incrementer.prototype.addCurrencies = function(currencies){
+		for (var i = 0; i < currencies.length; i++) {
+			this.addCurrency(currencies[i]);
+		}
+		return this;
+	};
+	Incrementer.prototype.addCurrency = function(currencyOptions){
+		var curr;
+		if (typeof this.currencies[name] == "object") {
+			console.error("Currency", name, "already exists; cannot add again.");
+			return false;
+		} else {
+			curr = new RocketBoots.Currency(currencyOptions);
+			this.currencies[curr.name] = curr;
+			this.currencyArray.push(curr.name);
+			this.currencyNum = this.currencyArray.length;
+			return this;
+		}
+	};
+
+	Incrementer.prototype.increment = function(steps, draw){
+		if (typeof steps != "number") { steps = 1; }
+		return this._increment(steps, draw, "increment");
+	};
+	Incrementer.prototype.incrementByElapsedTime = function (time, draw) {
+		return this._increment(time, draw, "incrementByElapsedTime");
+	};
+	Incrementer.prototype._increment = function (arg1, draw, incMethod) {
+		var fn;
+		if (draw) {
+			fn = function (curr) { 
+				curr[incMethod](arg1);
+				curr.draw();
+			};
+		} else {
+			fn = function (curr) { 
+				curr[incMethod](arg1); 
+			};
+		}
+		this.loopOverCurrencies(fn);		
+		return this;	
+	};
+
+	Incrementer.prototype.calculate = function(modifiers){
+		var currencies = this.currencies;
+		this.loopOverCurrencies(function(curr, currencyKey){
+			curr.calculate(currencies);
+			if (typeof modifiers[currencyKey] === 'object') {
+				for (var prop in modifiers[currencyKey]) {
+					curr[prop] += modifiers[currencyKey][prop];
+				}
+			}
+		});
+		return this;		
+	}
+
+	Incrementer.prototype.loopOverCurrencies = function(callback){
+		var i, curr;
+		for (i = 0; i < this.currencyNum; i++){
+			curr = this.currencies[ this.currencyArray[i] ];
+			callback(curr, this.currencyArray[i]);
+		}
+		return this;	
+	}
+	
+
+
+	// Install into RocketBoots if it exists, otherwise make global
+	if (typeof RocketBoots == "object") {
+		RocketBoots.installComponent(
+			"Incrementer", 	// file name
+			"Incrementer", 	// class name
+			Incrementer,	// class
+			["Currency"]	// dependencies
+		);
+	} else window["Incrementer"] = Incrementer;
+})();

@@ -1,0 +1,296 @@
+body {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+}
+
+a, a:visited {
+	color:  #1188dd;
+}
+a:hover {
+	color: #33aaff;
+}
+
+button {
+	display: inline-block;
+	background-color: rgba(255,255,255,0.25);
+	padding: 0.25em 0.5em;
+	border: solid 1px #333;
+	border-radius: 0.2em;
+	font-size: 100%;
+	font-family: inherit;
+	outline: none;
+	cursor: pointer;
+}
+	button:hover {
+	}
+	button:active {
+		background-color: rgba(0,0,0,0.25);
+	}
+
+.state {
+	display: none;
+}
+#booting-up-rocket-boots {
+	display: none;
+	padding: 1em;
+	font-size: 120%;
+}
+
+#skyline {
+	background: #33aaff;
+	width: 100%;
+	padding: 0.1em 0 0 0;
+	text-align: left;
+	transition: background ease-in 3s;
+
+}
+	#skyline header {
+		margin: 0em 0.3em;
+	}
+	#skyline header:after { content: ""; display: table; clear: both; }
+	#skyline h1 {
+		color: white;
+		margin: 0;
+		font-size: 110%;
+		float: left;
+	}
+		.micro-title {
+			opacity: 0.5;
+		}
+		.version {
+			opacity: 0.25;
+			font-size: 75%;
+		}
+		#skyline a, 
+		#skyline a:visited {
+			color: white;
+		}
+	.side-controls {
+		float: right;
+		text-align: right;
+		font-size: 75%;
+	}
+		.side-controls a {
+			opacity: 0.5;
+			transition: all 0.2s ease-in-out;
+		}
+		.side-controls a:hover {
+			opacity: 1.0;
+		}
+
+	ol.buildings {
+		display: block;
+		margin: 0; padding: 0;
+		list-style: none;
+		height: 0px;
+		width: 100%;
+		transition: all 1s ease-in-out;
+		/* background: rgba(255,255,255,0.5); */
+	}
+		ol.buildings > li {
+			float: left;
+			position: relative;
+			width: 1%;
+			margin: 0 0.25%;
+			height: inherit;
+		}
+			.building {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				min-height: 1px;
+				background-color: white;
+			}
+				.building:before {
+					display: block;
+					content: "";
+					position: absolute;
+					top: 0px;
+					background-color: inherit;					
+				}
+				.building-R:before {
+					width: 100%;
+					height: 20%;
+					top: -20%;
+					left: 0;
+				}
+				.building-C:before {
+					width: 60%;
+					height: 40%;
+					top: -40%;
+					left: 20%;
+				}
+				.building-I:before {
+					width: 20%;
+					height: 80%;
+					top: -80%;
+					left: 30%;
+				}
+				.building-P:before {
+					width: 60%;
+					height: 50%;
+					top: -50%;
+					left: 20%;
+					border-radius: 80% 80% 0 0;
+				}
+				.building > div { /* info panel */
+					display: none;
+					position: absolute;
+					z-index: 2;
+					top: 0;
+					padding: 1em;
+					background: rgba(255,255,255,0.75);
+					font-size: 75%;
+					border: solid 1px #aaa;
+				}
+				ol.buildings > li:hover .building > div {
+					display: block;
+				}
+
+
+.interface {
+	width: 900px;
+	margin: 0 auto;
+	padding: 1em 0;
+	min-height: 20em;
+}
+
+
+.currency-symbol {
+	font-size: 75%;
+	opacity: 0.5;
+}
+.currency-out-of {
+	display: inline-block;
+	margin: 0 0.5em;
+}
+.currency-out-of,
+.currency-max {
+	/* display: none; */
+}
+
+
+
+.basic {
+	text-align: left;
+}
+	.basic:after { content: ""; display: table; clear: both; }
+	.left {
+		float: left;
+		clear: left;
+	}
+	.right {
+		float: right;
+		clear: right;
+	}
+	.happiness {
+		clear: both;
+	}
+	.population .currency-out-of,
+	.population .currency-max {
+		display: inline-block;
+	}
+
+
+
+.rcip {
+	margin: 0;
+	padding: 1em 0;
+	list-style: none;
+}
+	.rcip:after { content: ""; display: table; clear: both; }
+	.rcip > li {
+		box-sizing: border-box;
+		width: 25%; /* 25% - padding - margin left - border space */
+		min-height: 7em;
+		/* margin-left: 1%; */
+		float: left;
+		text-align: left;
+		border: solid 1px #aaa;
+		border-left-width: 0;
+		padding: 0.5em 1%;
+	}
+	.rcip > li:first-child {
+		/* margin-left: 0;  */
+		border-left-width: 1px;
+	}
+	.rcip .currency-out-of,
+	.rcip .currency-max {
+		display: none;
+	}
+	#publicBudget .currency-out-of,
+	#publicBudget .currency-max {
+		display: inline-block;
+	}
+
+
+
+.tabs {
+	text-align: left;
+	margin: 1em 0;
+	border: solid 0px #aaa;
+	transition: height 0.5s ease-out;
+}
+	.tabs > nav {
+		clear: both;
+		padding: 0.5em 0 0 0;
+		border: inherit;
+	}
+		.tabs > nav > a {
+			display: inline-block;
+			margin: 0 0.25em 0 0;
+			padding: 0.5em 1em;
+			background: transparent;
+			border: inherit;
+			border-bottom-width: 1px;
+		}
+			.tabs > nav > a.open {
+				background: #fff;
+				border-width: 1px;
+				border-bottom-width: 0;
+			}
+	.tabs > div {
+		display: none;
+		border: inherit;
+		border-bottom-width: 1px;
+		padding: 1em 0;
+	}
+		.tabs > div.open {
+			display: block;
+		}
+
+	.tabs h2 {
+		margin-top: 0;
+	}
+
+.list {
+	display: block;
+	list-style: none;
+	padding: 0; margin: 0;
+}
+	.list > li {
+		display: block;
+		min-height: 2em;
+		padding: 0.5em;
+		border: solid 1px #aaa;
+		border-top-width: 0;
+		border-bottom-color: #aaa
+	}
+	.list > li:first-child {
+		border-top-width: 1px
+	}
+
+.upgrades button {
+	float: right;
+}
+
+
+
+body > footer {
+	display: block;
+	font-size: 75%;
+	margin: 2em 0;
+}
