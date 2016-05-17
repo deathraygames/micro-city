@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Micro-City 2016</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles/skyline.css" />
+	<!-- <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'> -->
+	
+	<!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon" /> -->
+	<!-- Generated favicons from https://realfavicongenerator.net/ -->
+	<link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="favicons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="favicons/favicon-194x194.png" sizes="194x194">
+	<link rel="icon" type="image/png" href="favicons/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="favicons/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="favicons/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="favicons/manifest.json">
+	<link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileImage" content="favicons/mstile-144x144.png">
+	<meta name="msapplication-TileColor" content="#2b5797">
+	<meta name="theme-color" content="#333333">	
+</head>
+<body>
+
+<div id="skyline">
+	<header>
+		<h1><span class="micro-title">Micro</span> City <span class="version">v0.1.0</span></h1>
+		<div class="side-controls">
+			<a href="#!" class="cityDrawToggle">City</a>
+			<a href="#!/pause" class="pause">Pause</a>
+		</div>
+	</header>
+	<ol class="buildings">
+	</ol>
+</div>
+
+<div id="booting-up-rocket-boots">
+	Loading...
+</div>
+
+<div class="state pause">Paused</div>
+
+<div class="state interface">
+	<div class="basic">
+		<div class="population left">Population: <span id="pop">____</span></div>
+		<div class="city-funds right">City Funds: <span id="funds">____</span></div>
+		<div class="happiness left">Happiness: <span id="happiness">___</span></div>
+		<div class="electricity right">Electricity: <span id="electricity">___</span></div>
+		<div class="crime left">Crime: <span id="crime">___</span></div>
+		<div class="pollution right">Pollution: <span id="pollution">___</span></div>
+		<!-- <div class="corruption left">Corruption: <span id="corruption">___</span></div> -->
+	</div>
+	<ul class="rcip">
+		<li class="building-type building-type-R" data-building="R">
+			<div><strong>R</strong>esidential</div>
+			<div>Floors: <span id="floorsR">_</span>, Buildings: <span id="buildingsR">_</span></div>
+			<div>Demand: <span id="demandR">_</span></div>
+			<!-- <div>Profits: <span id="profitsR">_</span></div> -->
+			<div>Tax: <span id="taxIncomeR">_</span></div>
+			<button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button>
+		</li>
+		<li class="building-type building-type-C" data-building="C">
+			<div><strong>C</strong>ommercial</div>
+			<div>Floors: <span id="floorsC">_</span>, Buildings: <span id="buildingsC">_</span></div>
+			<div>Demand: <span id="demandC">_</span></div>
+			<!-- <div>Profits: <span id="profitsC">_</span></div> -->
+			<div>Tax: <span id="taxIncomeC">_</span></div>
+			<button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button>
+		</li>
+		<li class="building-type building-type-I" data-building="I">
+			<div><strong>I</strong>ndustrial</div>
+			<div>Floors: <span id="floorsI">_</span>, Buildings: <span id="buildingsI">_</span></div>
+			<div>Demand: <span id="demandI">_</span></div>
+			<!-- <div>Profits: <span id="profitsI">_</span></div> -->
+			<div>Tax: <span id="taxIncomeI">_</span></div>
+			<button type="button" class="grant" title="Spend city funds to increase demand">+ Grant</button>
+		</li>
+		<li class="building-type building-type-P" data-building="P">
+			<div><strong>P</strong>ublic</div>
+			<div>Floors: <span id="floorsP">_</span>, Buildings: <span id="buildingsP">_</span></div>
+			<div>Demand: <span id="demandP">_</span></div>
+			<div>Public Budget: <span id="publicBudget">_</span></div>
+		</li>
+	</ul>
+	<div class="tabs">
+		<nav>
+			<a href="#!/news" data-tab="news">News</a>
+			<a href="#!/upgrades" data-tab="upgrades" class="open">Upgrades</a>
+			<a href="#!/policies" data-tab="policies">Policies</a>
+			<a href="#!/statistics" data-tab="statistics">Statistics</a>
+		</nav>
+		<div class="news">
+			<p>
+				Nothing here yet
+			</p>
+		</div>
+		<div class="upgrades open">
+			<h2>Public Construction</h2>
+			<ol class="list">
+				<li class="park" data-templatekey="park">
+					Small Park
+					<button type="button">+1 for <span class="currency-symbol"></span><span class="cost">100</span></button>
+				</li>
+				<li class="admin" data-templatekey="admin">
+					Bureaucracy Administration
+					<button type="button">+1 for <span class="currency-symbol"></span><span class="cost">100</span></button>
+				</li>
+				<li class="police" data-templatekey="police">
+					Police Station
+					<button type="button">+1 for <span class="currency-symbol"></span><span class="cost">100</span></button>
+				</li>
+				<li class="coal" data-templatekey="coal">
+					Coal Power Plant
+					<button type="button">+1 for <span class="currency-symbol"></span><span class="cost">100</span></button>
+				</li>				
+			</ol>
+		</div>
+		<div class="policies">
+			<h2>Policies</h2>
+			<p>
+				Doesn't work yet
+			</p>
+			<ol class="list">
+				<li>
+					Population Tax Rate
+					<input id="taxRatePop" type="range" min="0" max="50" step="0.5" />
+					<span></span>
+				</li>
+				<li>
+					Residential Tax Rate
+					<input id="taxRateR" type="range" min="0" max="50" step="0.5" />
+					<span></span>
+				</li>
+				<li>
+					Commercial Tax Rate
+					<input id="taxRateR" type="range" min="0" max="50" step="0.5" />
+					<span></span>
+				</li>
+				<li>
+					Residential Tax Rate
+					<input id="taxRateR" type="range" min="0" max="50" step="0.5" />
+					<span></span>
+				</li>
+			</ol>			
+		</div>
+		<div class="statistics">
+			<h2>Statistics</h2>
+			<p>
+				Day: <span id="day">_</span>
+				Hour: <span id="hour">_</span>
+			</p>
+		</div>
+	</div>
+</div>
+
+<footer>
+	<p>
+		Crafted by @deathraygames. 
+		Inspired by 
+		<a href="https://itch.io/jam/citysimjam2016" target="_blank">City Sim Jam 2016</a>, Sim City, Kittens, and Keep Craft.
+	</p>
+	<p> 
+		<a href="https://twitter.com/deathraygames" target="_blank">Twitter</a> 
+		| <a href="http://deathraygames.tumblr.com/" target="_blank">Tumblr</a> 
+		| <a href="http://deathraygames.com/" target="_blank">DeathrayGames.com</a>
+	</p>
+	<p>
+		Copyright &copy; 2016 | 
+		Code released under the MIT License | Content licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA License</a>
+	</p>
+</footer>
+
+
+<div class="scripts">
+	<script src="scripts/rocketboots/core.js"></script>
+	<script src="scripts/Building.js"></script>
+	<script src="scripts/microcity.js"></script>
+</div>
+
+
+</body>
+</html>
