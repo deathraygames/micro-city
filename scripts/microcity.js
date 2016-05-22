@@ -410,6 +410,9 @@ RocketBoots.loadComponents([
 			max: 0,
 			calcRate: function (c) {
 				return (g.buildingCounts.total * -0.1);
+			},
+			calcMax: function(c){
+				return 0;
 			}
 		},{
 			name: "pollution",
