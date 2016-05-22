@@ -1,5 +1,5 @@
 RocketBoots.loadComponents([
-	"state_machine",
+	"StateMachine",
 	"Dice",
 	"Loop",
 	"Incrementer",
@@ -129,14 +129,14 @@ RocketBoots.loadComponents([
 	};
 
 	g.updateButtons = function () {
-		rb._.each(RCI, function(type){
+		rb.each(RCI, function(type){
 			var $permit = $rcip.find('.building-type-' + type + ' .permit');
 			$permit.prop("disabled", !isReadyToBuild(type));
 		});
 	};
 
 	g.updatePolicies = function () {
-		rb._.each(g.taxRates, function(rate, type){
+		rb.each(g.taxRates, function(rate, type){
 			$('.taxRate-' + type).html(rate + "%");
 			$('.tax-slider-' + type).val(rate);
 		});
@@ -163,7 +163,7 @@ RocketBoots.loadComponents([
 		g.buildingModifiers = {};
 		g.highestFloorCount = 0;
 		// Loop over all buildings
-		rb._.each(g.buildings, function(building){
+		rb.each(g.buildings, function(building){
 			g.floorCounts[building.type] += building.floors;
 			g.buildingCounts[building.type] += 1;
 			if (building.floors > g.highestFloorCount) {
@@ -250,7 +250,7 @@ RocketBoots.loadComponents([
 
 	function findBuildingByTemplateKey (tk) {
 		var foundBuildings = [];
-		rb._.each(g.buildings, function(building){
+		rb.each(g.buildings, function(building){
 			if (building.templateKey == tk) {
 				foundBuildings.push(building);
 			}
@@ -561,7 +561,7 @@ RocketBoots.loadComponents([
 		var templateKey = $what.data("templatekey");
 		buyBuilding(templateKey);
 	});
-	rb._.each(g.taxRates, function(rate, type){
+	rb.each(g.taxRates, function(rate, type){
 		$('.tax-slider-' + type).on("change", function(e){
 			g.setTaxRate(type, $(e.target).val());
 		});

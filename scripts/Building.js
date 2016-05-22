@@ -1,7 +1,7 @@
 (function(){
 	var component = {
 		fileName: 		"Building",
-		classes:		["Building"],
+		classNames:		["Building"],
 		requirements:	[],
 		description:	"building class for micro city",
 		credits:		"By Luke Nickerson, 2016"
@@ -114,12 +114,12 @@
 		return _defaultTemplateKeyByType[type];
 	}
 
-
-
-	// Install into RocketBoots if it exists, otherwise make global
+	// Install into RocketBoots if it exists
 	if (typeof RocketBoots == "object") {
-		RocketBoots.installComponentByObject(component); // FIXME: switch back to installComponent when fixed
-	} else {
-		window["Building"] = Building;
+		RocketBoots.installComponent(component);
+	} else { // Otherwise put the classes on the global window object
+		for (var i = 0; i < component.classNames.length; i++) {
+			window[component.classNames[i]] = component[component.classNames[i]];
+		}
 	}
 })();
